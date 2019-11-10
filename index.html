@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Quiz</title>
+    <style>
+        body {
+            background-color: rgba(137, 161, 182, 0.658);
+        }
+
+        #hero {
+            background-color: #6C757D;
+            color: rgb(233, 225, 218);
+        }
+
+        #body {
+            background-color: rgb(113, 155, 192);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center text-center py-5" id="hero">
+            <div class="col-12">
+                <h1 class="display-1 font-weight-bold p-3">Trivia Questions</h1>
+                <h2 class="display-4 font-weight-bold p-3">Test your knowledge!</h2>
+                <div id="score"></div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center text-center py-5" id="body">
+            <div class="col-12" id="options">
+                <h4>Select your options</h4>
+            </div>
+            <div class="col-lg-3 col-12">
+                <div id="quizDifficultySelector">
+                    <h5>Difficulty level</h5>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="quizDifficulty" id="easy" autocomplete="off" value="easy" checked>
+                            Easy
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="quizDifficulty" id="medium" autocomplete="off" value="medium">
+                            Medium
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="quizDifficulty" id="hard" autocomplete="off" value="hard"> Hard
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div id="quizCategorySelector">
+                    <div class="form-group">
+                        <h5>Category</h5>
+                        <select id="triviaCategory" name="triviaCategory" class="custom-select bg-secondary text-white">
+                            <option value="">Any Category</option>
+                            <option value="9">General Knowledge</option>
+                            <option value="10">Entertainment: Books</option>
+                            <option value="11">Entertainment: Film</option>
+                            <option value="12">Entertainment: Music</option>
+                            <option value="13">Entertainment: Musicals &amp; Theatres</option>
+                            <option value="14">Entertainment: Television</option>
+                            <option value="15">Entertainment: Video Games</option>
+                            <option value="16">Entertainment: Board Games</option>
+                            <option value="17">Science &amp; Nature</option>
+                            <option value="18">Science: Computers</option>
+                            <option value="19">Science: Mathematics</option>
+                            <option value="20">Mythology</option>
+                            <option value="21">Sports</option>
+                            <option value="22">Geography</option>
+                            <option value="23">History</option>
+                            <option value="24">Politics</option>
+                            <option value="25">Art</option>
+                            <option value="26">Celebrities</option>
+                            <option value="27">Animals</option>
+                            <option value="28">Vehicles</option>
+                            <option value="29">Entertainment: Comics</option>
+                            <option value="30">Science: Gadgets</option>
+                            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+                            <option value="32">Entertainment: Cartoon &amp; Animations</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8"><button type="button" class="btn btn-danger" id="quizButton">Question?</button></div>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-center   py-5">
+        <div class="col-md-8 col-12">
+            <div id="quizDisplay">
+                <span id="quizCategory"></span>
+                <span id="quizDifficulty"></span>
+                <div id="quizType"></div>
+                <div id="quizQuestion" class="p-3"></div>
+                <div id="quizCorrect_answer"></div>
+                <div id="quizIncorrect_answers"></div>
+                <div id="answersList" class="p-3"></div>
+                <div id="result" class="p-3"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        var score = 0;
+        var answer0;
+        var answer1;
+        var answer2;
+        var answer3;
+        var difficultySelector = "easy";
+        var categorySelector;
+
+        //$('input:radio[name="quizDifficulty"]:checked').val();
+
+        //$('#triviaCategory option:selected').val();
+
+        //*$("#score").html('<p>Correct answers: ' + score + '</p>');*/
+
+        $("#quizButton").click(function () {
+            $("#result").html('<p></p>');
+
+            //sets difficulty level
+            difficultySelector = $('input:radio[name="quizDifficulty"]:checked').val();
+
+            //sets category
+            categorySelector = $('#triviaCategory option:selected').val();
+
+
+            $.ajax({
+                url: "https://opentdb.com/api.php?amount=1&category=" + categorySelector + "&type=multiple&difficulty=" + difficultySelector + "",
+                type: 'get',
+                success(response) {
+                    console.log(response.results);
+                    //$("#quizCategory").html('Category: ' + response.results[0].category + ' /');
+                    //$("#quizDifficulty").html('Difficulty: ' + response.results[0].difficulty);
+                    //$("#quizType").html('type: ' + response.results[0].type);
+                    $("#quizQuestion").html('<p class="h1">' + response.results[0].question + '</p>');
+                    //$("#quizCorrect_answer").html(response.results[0].correct_answer);
+                    console.log('correct answer:' + response.results[0].correct_answer);
+                    //sets answers to available options from API
+                    answer0 = response.results[0].correct_answer;
+                    answer1 = response.results[0].incorrect_answers[0];
+                    answer2 = response.results[0].incorrect_answers[1];
+                    answer3 = response.results[0].incorrect_answers[2];
+
+                    //creates array of answers
+                    var answersList = [answer0, answer1, answer2, answer3];
+
+                    //shuffles list of answers to choose from
+                    function answersShuffle() {
+                        answersList.sort(function (a, b) { return 0.5 - Math.random() });
+                    };
+                    answersShuffle();
+
+                    console.log(answersList);
+
+                    $("#answersList").html(
+                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[0] + '">' + answersList[0] + '</button>' +
+                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[1] + '">' + answersList[1] + '</button>' +
+                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[2] + '">' + answersList[2] + '</button>' +
+                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[3] + '">' + answersList[3] + '</button>'
+                    );
+
+                },
+                error(jqXHR, status, errorThrown) {
+                    console.log("error!");
+                }
+            });
+        });
+
+
+
+        function checkAnswer(element) {
+            console.log(element.value);
+            if (element.value == answer0) {
+                score = ++score;
+                $("#result").html('<p class="h2">Correct!</p>');
+                //$("#score").html('<p> Correct answers: <b>' + score + '</b></p>');
+
+            } else {
+                $("#result").html('<p class="h2">Wrong! <br>Correct answer is: <b>' + answer0 + '</b> </p>');
+
+            }
+
+        }
+
+
+    </script>
+
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>

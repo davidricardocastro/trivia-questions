@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Quiz
+
+
+    <button id="ajaxButton" type="button">Make a request</button>
+
+<script>
+(function() {
+  var httpRequest;
+  document.getElementById("ajaxButton").addEventListener('click', makeRequest);
+
+  function makeRequest() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+      alert('Giving up :( Cannot create an XMLHTTP instance');
+      return false;
+    }
+    httpRequest.onreadystatechange = alertContents;
+    httpRequest.open('GET', 'https://opentdb.com/api.php?amount=10');
+    httpRequest.send();
+  }
+
+  function alertContents() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        //alert(httpRequest.responseText);
+        //console.log(httpRequest.responseText);
+        console.log(httpRequest.response);
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+  }
+})();
+</script>
+</body>
+</html>
+
+<!--
+{"response_code":0,
+    "results":[{
+        "category":"Entertainment: Music",
+        "type":"multiple","difficulty":"medium",
+        "question":"Typically, how many keys are on a piano?",
+        "correct_answer":"88","incorrect_answers":["24","12","96"]},
+        
+        {"category":"Animals",
+        "type":"boolean","difficulty":"medium",
+        "question":"&quot;Kamea,&quot; the Gilbertese Islander word for dog, is derived from the English phrase &quot;Come here!&quot;","correct_answer":"True","incorrect_answers":["False"]},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"hard","question":"How many copies of the notorious E.T. game for the Atari 2600 did Atari end up selling?","correct_answer":"1.5 Million","incorrect_answers":["1 Million","250 Thousand","Less than 250 Thousand"]},{"category":"History","type":"boolean","difficulty":"easy","question":"Adolf Hitler was a german soldier in World War I.","correct_answer":"True","incorrect_answers":["False"]},{"category":"Entertainment: Books","type":"multiple","difficulty":"easy","question":"What&#039;s Harry Potter&#039;s dad&#039;s name?","correct_answer":"James Potter","incorrect_answers":["Joey Potter","Frank Potter","Hairy Potter Sr."]},{"category":"Science: Computers","type":"multiple","difficulty":"easy","question":"What does LTS stand for in the software market?","correct_answer":"Long Term Support","incorrect_answers":["Long Taco Service","Ludicrous Transfer Speed","Ludicrous Turbo Speed"]},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"In the first Left 4 Dead, you can play as either of these four characters.","correct_answer":"Francis, Bill, Zoey, and Louis","incorrect_answers":["Bender, Andrew, Allison, and Brian","Coach, Ellis, Nick, and Rochelle","Harry, Ron, Hermione and Dumbledore"]},{"category":"Science: Computers","type":"multiple","difficulty":"medium","question":"What is known as &quot;the brain&quot; of the Computer?","correct_answer":"Central Processing Unit","incorrect_answers":["Motherboard","Graphics Processing Unit","Keyboard"]},{"category":"Entertainment: Cartoon & Animations","type":"multiple","difficulty":"medium","question":"Who created &quot;RWBY&quot;?","correct_answer":"Monty Oum","incorrect_answers":["Miles Luna","Kerry Shawcross","Shane Newville"]},{"category":"Entertainment: Video Games","type":"boolean","difficulty":"medium","question":"In &quot;Call Of Duty: Zombies&quot;, you can upgrade the &quot;Apothicon Servant&quot; in the &quot;Shadows Of Evil&quot; map.","correct_answer":"False","incorrect_answers":["True"]}]}
+    -->
