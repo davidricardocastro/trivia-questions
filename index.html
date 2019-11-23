@@ -5,26 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
+    
+    <!--Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Quiz</title>
-    <style>
-        body {
-            background-color: rgba(137, 161, 182, 0.658);
-        }
 
-        #hero {
-            background-color: #6C757D;
-            color: rgb(233, 225, 218);
-        }
-
-        #body {
-            background-color: rgb(113, 155, 192);
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="quiz.css">
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Quiz Trivia Questions - Test your knowledge!</title>
+    <meta name="description" content="Generate quiz questions and have fun with your friends! Choose from multiple categories and three dificulty levels."/>
+    
 </head>
 
 <body>
@@ -115,94 +105,11 @@
     </div>
     </div>
 
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-    <script>
-        var score = 0;
-        var answer0;
-        var answer1;
-        var answer2;
-        var answer3;
-        var difficultySelector = "easy";
-        var categorySelector;
-
-        //$('input:radio[name="quizDifficulty"]:checked').val();
-
-        //$('#triviaCategory option:selected').val();
-
-        //*$("#score").html('<p>Correct answers: ' + score + '</p>');*/
-
-        $("#quizButton").click(function () {
-            $("#result").html('<p></p>');
-
-            //sets difficulty level
-            difficultySelector = $('input:radio[name="quizDifficulty"]:checked').val();
-
-            //sets category
-            categorySelector = $('#triviaCategory option:selected').val();
-
-
-            $.ajax({
-                url: "https://opentdb.com/api.php?amount=1&category=" + categorySelector + "&type=multiple&difficulty=" + difficultySelector + "",
-                type: 'get',
-                success(response) {
-                    console.log(response.results);
-                    //$("#quizCategory").html('Category: ' + response.results[0].category + ' /');
-                    //$("#quizDifficulty").html('Difficulty: ' + response.results[0].difficulty);
-                    //$("#quizType").html('type: ' + response.results[0].type);
-                    $("#quizQuestion").html('<p class="h1">' + response.results[0].question + '</p>');
-                    //$("#quizCorrect_answer").html(response.results[0].correct_answer);
-                    console.log('correct answer:' + response.results[0].correct_answer);
-                    //sets answers to available options from API
-                    answer0 = response.results[0].correct_answer;
-                    answer1 = response.results[0].incorrect_answers[0];
-                    answer2 = response.results[0].incorrect_answers[1];
-                    answer3 = response.results[0].incorrect_answers[2];
-
-                    //creates array of answers
-                    var answersList = [answer0, answer1, answer2, answer3];
-
-                    //shuffles list of answers to choose from
-                    function answersShuffle() {
-                        answersList.sort(function (a, b) { return 0.5 - Math.random() });
-                    };
-                    answersShuffle();
-
-                    console.log(answersList);
-
-                    $("#answersList").html(
-                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[0] + '">' + answersList[0] + '</button>' +
-                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[1] + '">' + answersList[1] + '</button>' +
-                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[2] + '">' + answersList[2] + '</button>' +
-                        ' <button type="button" class="btn btn-warning btn-lg m-1" onclick="checkAnswer(this)" value="' + answersList[3] + '">' + answersList[3] + '</button>'
-                    );
-
-                },
-                error(jqXHR, status, errorThrown) {
-                    console.log("error!");
-                }
-            });
-        });
-
-
-
-        function checkAnswer(element) {
-            console.log(element.value);
-            if (element.value == answer0) {
-                score = ++score;
-                $("#result").html('<p class="h2">Correct!</p>');
-                //$("#score").html('<p> Correct answers: <b>' + score + '</b></p>');
-
-            } else {
-                $("#result").html('<p class="h2">Wrong! <br>Correct answer is: <b>' + answer0 + '</b> </p>');
-
-            }
-
-        }
-
-
-    </script>
-
-    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <!--Bootstrap-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -210,7 +117,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-
+    <!--Quiz script -->
+    <script src="quiz.js"></script>
 
 </body>
 
